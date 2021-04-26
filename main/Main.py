@@ -8,7 +8,7 @@
 
 from flask import Flask, request
 
-from component.card import search_card
+from component.card import search_card, draw_card
 from component.score import daily_score, search_score, increase_score
 
 app = Flask(__name__)
@@ -45,6 +45,13 @@ def admin_increase():
 def card_search():
     user_id = request.form['user_id']
     result = search_card(user_id)
+    return result
+
+
+@app.route('/card/draw', methods=['POST'])
+def draw():
+    user_id = request.form['user_id']
+    result = draw_card(user_id)
     return result
 
 

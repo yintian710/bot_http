@@ -5,7 +5,7 @@
 @Date  : 2021/3/31 15:40
 @Desc  : 
 """
-
+import datetime
 import json
 import re
 
@@ -20,6 +20,18 @@ def is_regis(func):
     def inner(user_id, *args, **kwargs):
         if not select_u_for_sql(user_id, 'id'):
             return get_return('您还没有注册，请先注册', 1)
+        return func(user_id, *args, **kwargs)
+
+    return inner
+
+
+@is_regis
+def is_daily(func):
+    def inner(user_id, *args, **kwargs):
+        da = select_u_for_sql(user_id, 'da')[0]
+        today = str(datetime.date.today())
+        if da != today:
+            return get_return('需要先签到的说~', 1)
         return func(user_id, *args, **kwargs)
     return inner
 
@@ -58,7 +70,7 @@ def select_score(user_id):
 def change_score(user_id, score, today):
     if score < 0:
         score = 0
-    update_u_for_sql(user_id, {'score': score, 'da':today})
+    update_u_for_sql(user_id, {'score': score, 'da': today})
 
 
 def add_score(user_id, new_score):
@@ -67,7 +79,7 @@ def add_score(user_id, new_score):
         new_score = 0
     else:
         new_score += old_score
-    update_u_for_sql(user_id, {"score":new_score})
+    update_u_for_sql(user_id, {"score": new_score})
 
 
 def enough_score(user_id, score):

@@ -6,20 +6,21 @@
 @Desc  : 
 """
 import json
+from tool.CONTANT import IMG_PATH
 
-with open('../json_data/UR.json', 'r') as f:
+with open(IMG_PATH['UR'], 'r') as f:
     UR_img = json.loads(f.read())
 
-with open('../json_data/SSR.json', 'r') as f:
+with open(IMG_PATH['SSR'], 'r') as f:
     SSR_img = json.loads(f.read())
 
-with open('../json_data/SR.json', 'r') as f:
+with open(IMG_PATH['SR'], 'r') as f:
     SR_img = json.loads(f.read())
 
-with open('../json_data/R.json', 'r') as f:
+with open(IMG_PATH['R'], 'r') as f:
     R_img = json.loads(f.read())
 
-with open('../json_data/N.json', 'r') as f:
+with open(IMG_PATH['N'], 'r') as f:
     N_img = json.loads(f.read())
 
 N_num = len(N_img)

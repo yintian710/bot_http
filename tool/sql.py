@@ -9,8 +9,9 @@ import json
 
 import pymysql
 
+from tool.CONTANT import SQL_PATH
 
-with open('ignore/sql.json_data', 'r', encoding="utf-8") as f:
+with open(SQL_PATH, 'r', encoding="utf-8") as f:
     sql_json = json.loads(f.read())
 
 
@@ -94,3 +95,6 @@ def update_base(base, where_dict, **kwargs):
     con.commit()
     cur.close()
     con.close()
+
+if __name__ == '__main__':
+    print()
