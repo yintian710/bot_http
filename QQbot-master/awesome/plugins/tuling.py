@@ -1,4 +1,4 @@
-# import json
+# import json_data
 # from typing import Optional
 #
 # import aiohttp
@@ -70,18 +70,18 @@
 #     try:
 #         # 使用 aiohttp 库发送最终的请求
 #         async with aiohttp.ClientSession() as sess:
-#             async with sess.post(url, json=payload) as response:
+#             async with sess.post(url, json_data=payload) as response:
 #                 if response.status != 200:
 #                     # 如果 HTTP 响应状态码不是 200，说明调用失败
 #                     return None
 #
-#                 resp_payload = json.loads(await response.text())
+#                 resp_payload = json_data.loads(await response.text())
 #                 if resp_payload['results']:
 #                     for result in resp_payload['results']:
 #                         if result['resultType'] == 'text':
 #                             # 返回文本类型的回复
 #                             return result['values']['text']
-#     except (aiohttp.ClientError, json.JSONDecodeError, KeyError):
+#     except (aiohttp.ClientError, json_data.JSONDecodeError, KeyError):
 #         # 抛出上面任何异常，说明调用失败
 #         return None
 

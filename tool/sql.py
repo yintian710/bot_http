@@ -10,7 +10,7 @@ import json
 import pymysql
 
 
-with open('../sql.json', 'r', encoding="utf-8") as f:
+with open('ignore/sql.json_data', 'r', encoding="utf-8") as f:
     sql_json = json.loads(f.read())
 
 

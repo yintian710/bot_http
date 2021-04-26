@@ -41,7 +41,7 @@ def translate(word):
     key = {
         'type': "AUTO",
         'i': word,
-        "doctype": "json",
+        "doctype": "json_data",
         "version": "2.1",
         "keyfrom": "fanyi.web",
         "ue": "UTF-8",
@@ -59,7 +59,7 @@ def translate(word):
 
 
 def get_reuslt(repsonse):
-    # 通过 json.loads 把返回的结果加载成 json 格式
+    # 通过 json_data.loads 把返回的结果加载成 json_data 格式
     result = json.loads(repsonse)
     return result['translateResult'][0][0]['tgt']
 

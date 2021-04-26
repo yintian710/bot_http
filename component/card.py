@@ -26,5 +26,9 @@ def archive_card(user_id, img, lv, num=1):
     update_u_for_sql(user_id, {lv: lv_num + num})
 
 
+@is_regis
+def get_random_card():
+    pass
+
 if __name__ == '__main__':
     pass

@@ -9,3 +9,9 @@
 PA = '爬'
 
 RUMOR_PRICE = 5
+
+CARD_PRICE = 3
+
+HOUSE_PRICE = 5
+
+RE_PRICE = {'N': 1, 'R': 3, 'SR': 7}
