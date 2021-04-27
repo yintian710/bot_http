@@ -5,6 +5,7 @@
 @Date  : 2021/3/31 17:42
 @Desc  : 
 """
+import os
 
 PA = '爬'
 
@@ -16,12 +17,18 @@ HOUSE_PRICE = 5
 
 RE_PRICE = {'N': 1, 'R': 3, 'SR': 7}
 
-SQL_PATH = r'C:\project\bot\ignore\sql.json'
+BOT_PATH = os.getcwd()[:-5]
+
+SQL_PATH = BOT_PATH + r'\ignore\sql.json'
 
 IMG_PATH = {
-    'N': r'C:\project\bot\json_data\N.json',
-    'R': r'C:\project\bot\json_data\R.json',
-    'SR': r'C:\project\bot\json_data\SR.json',
-    'SSR': r'C:\project\bot\json_data\SSR.json',
-    'UR': r'C:\project\bot\json_data\UR.json',
+    'N': BOT_PATH + r'\json_data\N.json',
+    'R': BOT_PATH + r'\json_data\R.json',
+    'SR': BOT_PATH + r'\json_data\SR.json',
+    'SSR': BOT_PATH + r'\json_data\SSR.json',
+    'UR': BOT_PATH + r'\json_data\UR.json',
 }
+
+
+if __name__ == '__main__':
+    print()

@@ -25,7 +25,6 @@ def is_regis(func):
     return inner
 
 
-@is_regis
 def is_daily(func):
     def inner(user_id, *args, **kwargs):
         da = select_u_for_sql(user_id, 'da')[0]

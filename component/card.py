@@ -60,6 +60,7 @@ def get_random_card():
     return img, str1, lv
 
 
+@is_regis
 @is_daily
 def draw_card(user_id):
     score = select_score(user_id)
