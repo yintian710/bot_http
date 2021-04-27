@@ -17,7 +17,9 @@ HOUSE_PRICE = 5
 
 RE_PRICE = {'N': 1, 'R': 3, 'SR': 7}
 
-BOT_PATH = os.getcwd()[:-5]
+PROJECT_PATH = os.getcwd()
+
+BOT_PATH = PROJECT_PATH[:PROJECT_PATH.find('bot') + 3]
 
 SQL_PATH = BOT_PATH + r'\ignore\sql.json'
 
@@ -29,6 +31,7 @@ IMG_PATH = {
     'UR': BOT_PATH + r'\json_data\UR.json',
 }
 
+pa = '{"message": {"public": "爬", "private": ""}, "code": 0}'
 
 if __name__ == '__main__':
     print()

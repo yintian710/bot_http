@@ -95,6 +95,3 @@ def update_base(base, where_dict, **kwargs):
     con.commit()
     cur.close()
     con.close()
-
-if __name__ == '__main__':
-    print()

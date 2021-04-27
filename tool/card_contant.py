@@ -23,6 +23,7 @@ with open(IMG_PATH['R'], 'r') as f:
 with open(IMG_PATH['N'], 'r') as f:
     N_img = json.loads(f.read())
 
+
 N_num = len(N_img)
 R_num = len(R_img)
 SR_num = len(SR_img)
@@ -31,6 +32,12 @@ UR_num = len(UR_img)
 
 card_img = {'UR': UR_img, 'SSR': SSR_img, 'SR': SR_img, 'R': R_img, 'N': N_img}
 card_level = [UR_img, SSR_img, SR_img, R_img, N_img]
+
+
+level = {}
+for _ in card_img:
+    for card in card_img[_]:
+        level[card] = _
 
 if __name__ == '__main__':
     pass

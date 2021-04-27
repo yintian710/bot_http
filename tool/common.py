@@ -9,17 +9,18 @@ import datetime
 import json
 import re
 
+from tool.CONTANT import IMG_PATH
 from tool.sql import select_u_for_sql, update_u_for_sql
 
 
-def get_return(message, code=0):
-    return json.dumps({'code': code, 'message': message})
+def get_return(public_msg, private_msg='', code=0):
+    return json.dumps({"message": {"public": public_msg, "private": private_msg}, 'code': code})
 
 
 def is_regis(func):
     def inner(user_id, *args, **kwargs):
         if not select_u_for_sql(user_id, 'id'):
-            return get_return('您还没有注册，请先注册', 1)
+            return get_return('您还没有注册，请先注册')
         return func(user_id, *args, **kwargs)
 
     return inner
@@ -30,8 +31,9 @@ def is_daily(func):
         da = select_u_for_sql(user_id, 'da')[0]
         today = str(datetime.date.today())
         if da != today:
-            return get_return('需要先签到的说~', 1)
+            return get_return('需要先签到的说~')
         return func(user_id, *args, **kwargs)
+
     return inner
 
 
@@ -39,7 +41,7 @@ def is_admin(func):
     def inner(user_id, *args, **kwargs):
         permission = select_u_for_sql(user_id, 'permission')
         if not permission or permission != ('admin',):
-            return get_return('爬', 1)
+            return get_return('爬')
         return func(user_id, *args, **kwargs)
 
     return inner
