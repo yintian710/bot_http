@@ -8,7 +8,7 @@
 
 from flask import Flask, request
 
-from component.card import search_card, draw_card, draw_ten_card, draw_hundred_card
+from component.card import search_card, draw_card, draw_ten_card, draw_hundred_card, get_card_data
 from component.score import daily_score, search_score, increase_score
 
 app = Flask(__name__)
@@ -69,8 +69,8 @@ def draw_hundred():
     return result
 
 
-@app.route('card/get_data', methods=['POST'])
-def get_card_data():
+@app.route('/card/get_data', methods=['POST'])
+def card_get_data():
     user_id = request.form['user_id']
     card = request.form['card']
     result = get_card_data(user_id, card)

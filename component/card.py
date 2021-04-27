@@ -128,7 +128,7 @@ def get_card_data(user_id, card_name):
     res = select_card_for_sql(user_id, card_name)[0]
     if res == 0:
         return pa
-    card_data = card_level[level[card_name]][card_name]
+    card_data = card_img[level[card_name]][card_name]
     return card_data
 
 
