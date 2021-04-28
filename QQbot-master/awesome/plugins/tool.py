@@ -35,13 +35,11 @@ card_img = {'UR': UR_img, 'SSR': SSR_img, 'SR': SR_img, 'R': R_img, 'N': N_img}
 card_level = [UR_img, SSR_img, SR_img, R_img, N_img]
 re_price = {'N': 1, 'R': 3, 'SR': 7}
 
-
 bot = nonebot.get_bot()
 newgame = ' '
 card_price = 3
 house_price = 5
 direction_dic = {0: '无', 1: '制造业', 2: '农业', 3: '服务业'}
-
 
 things = {0: '无事发生',
           1: '暴风雨, 所有没住房的人需花费15积分购买雨伞。',
@@ -68,11 +66,12 @@ def cardlevel(list1):
 level = {}
 for _ in cardlist[1:]:
     for i in card_level:
-        if _+'.jpg' in i:
+        if _ + '.jpg' in i:
             level[_] = cardlevel(i)
 print(level)
 print(len(level))
 print(cardlist)
+
 
 def nums(x):
     num = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -144,7 +143,7 @@ def dj(id):
     print(zs)
     dj1 = 0
     for _ in zs:
-        dj1 += _[2]*int(_[3])
+        dj1 += _[2] * int(_[3])
     gg('u', 'id', id, 'dj', dj1)
 
 
@@ -164,12 +163,14 @@ def sgg():
     cur.execute('select * from con where id = "odds1"')
     res = cur.fetchone()
     cur.execute(
-        f'update con set 6号={res[list1[1]]},2号={res[list1[2]]},3号={res[list1[3]]},4号={res[list1[4]]},5号={res[list1[5]]},1号={res[list1[0]]} where id = "odds"')
+        f'update con set 6号={res[list1[1]]},2号={res[list1[2]]},3号={res[list1[3]]},4号={res[list1[4]]},5号={res[
+            list1[5]]},1号={res[list1[0]]} where id = "odds"')
     con.commit()
     cur.execute('select * from con where id = "speed1"')
     res = cur.fetchone()
     cur.execute(
-        f'update con set 6号={res[list1[1]]},2号={res[list1[2]]},3号={res[list1[3]]},4号={res[list1[4]]},5号={res[list1[5]]},1号={res[list1[0]]} where id = "speed"')
+        f'update con set 6号={res[list1[1]]},2号={res[list1[2]]},3号={res[list1[3]]},4号={res[list1[4]]},5号={res[
+            list1[5]]},1号={res[list1[0]]} where id = "speed"')
     con.commit()
 
 
@@ -219,9 +220,11 @@ def horse_set(n):
     cur.execute(f'update con set con={n} where id="horse"')
     con.commit()
 
+
 def ye(user_id):
     score = int(select('u', 'score', 'id', user_id)[0])
     return score
+
 
 def day(user_id):
     s = 'select da from u where id = %s' % user_id
@@ -233,6 +236,7 @@ def day(user_id):
         return False
     else:
         return True
+
 
 @on_command('sql', aliases=('sql',), permission=permission.SUPERUSER)
 async def sql(session: CommandSession):
@@ -254,7 +258,6 @@ async def s(session: CommandSession):
 @on_notice('group_increase')
 async def _(session: NoticeSession):
     await session.send('欢迎新朋友～')
-
 
 # if __name__ == '__main__':
 #     sql()

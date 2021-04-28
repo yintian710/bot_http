@@ -9,7 +9,6 @@ import datetime
 import json
 import re
 
-from tool.CONTANT import IMG_PATH
 from tool.sql import select_u_for_sql, update_u_for_sql
 
 
