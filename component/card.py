@@ -156,5 +156,13 @@ def get_card_data(user_id, card_name):
     return card_data
 
 
+@is_regis
+@is_daily
+def sell_card(user_id, card_name, nums=1):
+    res = select_card_for_sql(user_id, card_name)[0]
+    if res == 0:
+        return pa
+
+
 if __name__ == '__main__':
     pass
