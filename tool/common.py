@@ -68,10 +68,14 @@ def select_score(user_id):
     return score
 
 
-def change_score(user_id, score, today):
+def change_score(user_id, score, today=''):
     if score < 0:
         score = 0
-    update_u_for_sql(user_id, {'score': score, 'da': today})
+    if today:
+        update_data = {'score': score, 'da': today}
+    else:
+        update_data = {'score': score}
+    update_u_for_sql(user_id, update_data)
 
 
 def add_score(user_id, new_score):

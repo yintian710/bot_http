@@ -5,11 +5,11 @@
 @date: 2021-04-24
 @file: card.py
 """
-from tool.common import is_regis, is_daily, select_score, add_score, get_return
+from tool.common import is_regis, is_daily, select_score, add_score, get_return, change_score
 from tool.sql import select_card_for_sql, select_u_for_sql, update_card_for_sql, update_u_for_sql
 from tool.card_contant import *
 from random import choice, randint
-from tool.CONTANT import CARD_PRICE, pa
+from tool.CONTANT import CARD_PRICE, pa, RE_PRICE
 
 
 def archive_card(user_id, img, lv, num=1):
@@ -160,8 +160,11 @@ def get_card_data(user_id, card_name):
 @is_daily
 def sell_card(user_id, card_name, nums=1):
     res = select_card_for_sql(user_id, card_name)[0]
-    if res == 0:
+    if res < nums:
         return pa
+    sell_score = RE_PRICE[level[card_name]] * nums
+    add_score(user_id, sell_score)
+    update_card_for_sql({'user_id': user_id}, {card_name: res - nums})
 
 
 if __name__ == '__main__':
