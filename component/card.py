@@ -12,13 +12,6 @@ from random import choice, randint
 from tool.CONTANT import CARD_PRICE, pa
 
 
-@is_regis
-def search_card(user_id):
-    res = select_u_for_sql(user_id, 'N', 'R', 'SR', "SSR", 'UR')
-    str1 = f'N:{res[0]}  R:{res[1]}  SR:{res[2]}  SSR:{res[3]}  UR:{res[4]}'
-    return get_return(str1)
-
-
 def archive_card(user_id, img, lv, num=1):
     if '.jpg' in img:
         img = img[:-4]
@@ -26,6 +19,19 @@ def archive_card(user_id, img, lv, num=1):
     lv_num = select_u_for_sql(user_id, lv)[0]
     update_card_for_sql({"id": user_id}, {img: img_num + num})
     update_u_for_sql(user_id, {lv: lv_num + num})
+
+
+def archive_cards(user_id, imgs: dict, lvs: dict):
+    img_list = list(imgs.keys())
+    lv_list = list(lvs.keys())
+    img_num = select_card_for_sql(user_id, *img_list)
+    lv_num = select_u_for_sql(user_id, *lv_list)
+    for i, _ in enumerate(img_list):
+        imgs[_] += img_num[i]
+    for i, _ in enumerate(lv_list):
+        lvs[_] += lv_num[i]
+    update_card_for_sql({"id": user_id}, imgs)
+    update_u_for_sql(user_id, lvs)
 
 
 def get_random_card():
@@ -80,7 +86,9 @@ def draw_ten_card(user_id):
     add_score(user_id, -9 * CARD_PRICE)
     str1 = f'花费{CARD_PRICE * 9}积分。\n'
     n_NUM = 0
-    imgs = []
+    lv_num = {'UR': 0, "SSR": 0, 'SR': 0, 'R': 0, 'N': 0}
+    card_num = {'N': [], 'R': [], 'SR': [], "SSR": [], 'UR': []}
+    imgs = {}
     for i in range(10):
         img, str2, lv = get_random_card()
         n_NUM += 1 if lv == 'N' else 0
@@ -88,10 +96,22 @@ def draw_ten_card(user_id):
             while lv == 'N':
                 img, str2, lv = get_random_card()
                 str1 += '触发保底：\n'
-        imgs.append(img)
-        archive_card(user_id, img, lv, 1)
+        lv_num[lv] += 1
+        if imgs.get(img):
+            imgs[img] += 1
+        else:
+            imgs[img] = 1
+        card_num[lv].append(img)
         if str2:
             str1 += str2 + '\n'
+    archive_cards(user_id, imgs, lv_num)
+    return get_return(str1)
+
+
+@is_regis
+def search_card(user_id):
+    res = select_u_for_sql(user_id, 'N', 'R', 'SR', "SSR", 'UR')
+    str1 = f'N:{res[0]}  R:{res[1]}  SR:{res[2]}  SSR:{res[3]}  UR:{res[4]}'
     return get_return(str1)
 
 
@@ -103,13 +123,16 @@ def draw_hundred_card(user_id):
         return get_return('爬')
     lv_num = {'UR': 0, "SSR": 0, 'SR': 0, 'R': 0, 'N': 0}
     card_num = {'N': [], 'R': [], 'SR': [], "SSR": [], 'UR': []}
-    imgs = []
+    imgs = {}
     for i in range(100):
         img, str1, lv = get_random_card()
         lv_num[lv] += 1
-        imgs.append(img)
-        archive_card(user_id, img, lv, 1)
+        if imgs.get(img):
+            imgs[img] += 1
+        else:
+            imgs[img] = 1
         card_num[lv].append(img)
+    archive_cards(user_id, imgs, lv_num)
     str1 = f'扣除{CARD_PRICE * 80}积分\n获得UR卡{lv_num["UR"]}张\n获得SSR卡{lv_num["SSR"]}张\n获得SR卡{lv_num["SR"]}张\n' \
         f'获得R卡{lv_num["R"]}张\n获得N卡{lv_num["N"]}张\n详细抽卡结果已私聊发送'
     str3 = ''  # str3 为私聊发送
@@ -124,6 +147,7 @@ def draw_hundred_card(user_id):
     return get_return(str1, str3)
 
 
+@is_regis
 def get_card_data(user_id, card_name):
     res = select_card_for_sql(user_id, card_name)[0]
     if res == 0:
