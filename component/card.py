@@ -167,5 +167,13 @@ def sell_card(user_id, card_name, nums=1):
     update_card_for_sql({'user_id': user_id}, {card_name: res - nums})
 
 
+def update_achievement(user_id):
+    achievement = select_u_for_sql(user_id, 'achievement')[0]
+
+
+def caheck_achieve(user_id):
+    pass
+
+
 if __name__ == '__main__':
     pass
