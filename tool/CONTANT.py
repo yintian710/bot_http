@@ -19,7 +19,7 @@ RE_PRICE = {'N': 1, 'R': 3, 'SR': 7}
 
 PROJECT_PATH = os.getcwd()
 
-BOT_PATH = PROJECT_PATH[:PROJECT_PATH.find('bot') + 7]
+BOT_PATH = PROJECT_PATH[:PROJECT_PATH.find('bot') + 8]
 
 SQL_PATH = BOT_PATH + r'\ignore\sql.json'
 
