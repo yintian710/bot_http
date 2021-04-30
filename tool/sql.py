@@ -18,7 +18,7 @@ with open(SQL_PATH, 'r', encoding="utf-8") as f:
 
 def get_cur():
     """
-    获取mysql连接
+    获取mysql连接,并返回两个操作参数
     :return:
     """
     con = pymysql.connect(**sql_json)
