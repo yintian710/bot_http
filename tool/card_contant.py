@@ -9,6 +9,7 @@ import json
 from tool.CONTANT import IMG_PATH
 
 # 读取卡牌内容,存为dict格式
+from tool.sql import get_cur
 
 with open(IMG_PATH['UR'], 'r') as f:
     UR_img = json.loads(f.read())
@@ -41,6 +42,11 @@ card_level = [UR_img, SSR_img, SR_img, R_img, N_img]
 
 
 # 获取每个卡牌名称对应的卡牌等级的dict
+con, cur = get_cur()
+cur.execute('select GROUP_CONCAT(COLUMN_NAME) from information_schema.COLUMNS where table_name = \'card\'')
+cardlist = cur.fetchone()[0].split(',')
+cur.close()
+con.close()
 
 level = {}
 for _ in card_img:

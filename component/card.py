@@ -219,23 +219,5 @@ def sell_card(user_id, card_name, nums=1):
     update_card_for_sql({'user_id': user_id}, {card_name: res - nums})
 
 
-def update_achievement(user_id):
-    """
-    更新卡牌成就
-    :param user_id:
-    :return:
-    """
-    achievement = select_u_for_sql(user_id, 'achievement')[0]
-
-
-def check_achieve(user_id):
-    """
-    检查是否需要更新成就
-    :param user_id:
-    :return:
-    """
-    pass
-
-
 if __name__ == '__main__':
     pass
