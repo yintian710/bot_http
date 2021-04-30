@@ -68,13 +68,30 @@ def update_achievement(user_id):
     achievement = select_u_for_sql(user_id, 'achievement')[0]
 
 
-def check_achieve(user_id):
+def check_achieve(user_id, card_name):
     """
     检查是否需要更新成就
     :param user_id:
+    :param card_name: 新获取到的卡牌内容
     :return:
     """
     achievement = select_u_for_sql(user_id, 'achievement')[0]
+    if achievement:
+        achieve = achievement.split(' ')
+    else:
+        achieve = ''
+    is_new = False
+    for _ in achieve_list:
+        pass
+
+
+def checks_achieve(user_id, card_names):
+    """
+    由多个卡牌名检查是否需要更新成就
+    :param user_id:
+    :param card_names: 新获取到的卡牌内容
+    :return:
+    """
     pass
 
 
