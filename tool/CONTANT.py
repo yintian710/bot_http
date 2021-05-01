@@ -15,6 +15,10 @@ CARD_PRICE = 3
 
 HOUSE_PRICE = 5
 
+BOOM_PRICE = 1
+
+BOOM_SCORE = 5
+
 RE_PRICE = {'N': 1, 'R': 3, 'SR': 7}
 
 PROJECT_PATH = os.getcwd()
