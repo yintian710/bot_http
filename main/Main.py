@@ -8,6 +8,7 @@
 
 from flask import Flask, request
 
+from component.boom import boom_play, new_boom
 from component.card import search_card, draw_card, draw_ten_card, draw_hundred_card, get_card_data
 from component.score import daily_score, search_score, increase_score
 
@@ -109,6 +110,25 @@ def card_get_data():
     return result
 
 
+@app.route('/boom/new', methods=['POST'])
+def new():
+    """
+
+    :return:
+    """
+    # user_id = request.form['user_id']
+    result = new_boom()
+    return result
+
+
+@app.route('/boom/play', methods=['POST'])
+def play():
+    user_id = request.form['user_id']
+    boom_num = request.form['boom_num']
+    result = boom_play(user_id, boom_num)
+    return result
+
+
 if __name__ == '__main__':
     # 运行flask.app
-    app.run(host='127.0.0.1', port=4399)
+    app.run(host='0.0.0.0', port=4399)
