@@ -1,4 +1,3 @@
-from .tool import *
 from .bank import *
 
 a = 0

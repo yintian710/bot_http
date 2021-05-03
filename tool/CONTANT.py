@@ -19,6 +19,10 @@ BOOM_PRICE = 1
 
 BOOM_SCORE = 5
 
+USER_BOOM_PRICE = 70
+
+USER_BOOM_TAX = 4
+
 RE_PRICE = {'N': 1, 'R': 3, 'SR': 7}
 
 PROJECT_PATH = os.getcwd()

@@ -116,8 +116,8 @@ def new():
 
     :return:
     """
-    # user_id = request.form['user_id']
-    result = new_boom()
+    user_id = request.form['user_id']
+    result = new_boom(user_id)
     return result
 
 
