@@ -90,7 +90,7 @@ def update_card_for_sql(where_dict, kwargs):
 
 def select_game_for_sql(user_id, *args):
     """
-    查询"u"表中的数据,调用select_base接口
+    查询"game"表中的数据,调用select_base接口
     :param user_id: 被查询的用户id
     :param args: 所有被查询的字段名
     :return:
@@ -100,7 +100,7 @@ def select_game_for_sql(user_id, *args):
 
 def update_game_for_sql(user_id, kwargs):
     """
-    更新"u"表中的数据,调用update_base接口
+    更新"game"表中的数据,调用update_base接口
     :param user_id:
     :param kwargs: 需要更改的数据dict,{需要更改的字段名:更改之后的值,...}
     :return:

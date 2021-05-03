@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@File  : common.py
+@File  : boom.py
 @Author: yintian
 @Date  : 2021/5/03 15:40
 @Desc  : 完成了boom游戏的大部分内容，目前还需要完成一个玩家短时间内游玩两次的拒绝

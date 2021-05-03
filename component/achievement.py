@@ -9,7 +9,14 @@
 from tool.achieve_list import achieve_list
 from tool.card_contant import cardlist
 from tool.common import get_return
-from tool.sql import select_u_for_sql, select_card_for_sql
+from tool.sql import select_u_for_sql, select_card_for_sql, update_u_for_sql
+
+
+def is_have_zero(list1: list):
+    for _ in list1:
+        if not _:
+            return True
+    return False
 
 
 def select_achievement(user_id):
@@ -59,41 +66,35 @@ def achievement_progress(user_id):
     return get_return('', str1)
 
 
-def update_achievement(user_id):
-    """
-    更新卡牌成就
-    :param user_id:
-    :return:
-    """
-    achievement = select_u_for_sql(user_id, 'achievement')[0]
-
-
-def check_achieve(user_id, card_name):
-    """
-    检查是否需要更新成就
-    :param user_id:
-    :param card_name: 新获取到的卡牌内容
-    :return:
-    """
-    achievement = select_u_for_sql(user_id, 'achievement')[0]
-    if achievement:
-        achieve = achievement.split(' ')
-    else:
-        achieve = ''
-    is_new = False
-    for _ in achieve_list:
-        pass
-
-
-def checks_achieve(user_id, card_names):
+def checks_achieve(user_id):
     """
     由多个卡牌名检查是否需要更新成就
     :param user_id:
     :param card_names: 新获取到的卡牌内容
     :return:
     """
-    pass
+    achievement_list1 = select_u_for_sql(user_id, 'achievement')[0].split(' ')
+    achievement_list2 = []
+    str_return = ''
+    for k, v in achieve_list.items():
+        res = select_card_for_sql(user_id, *v)
+        if not is_have_zero(res):
+            achievement_list2.append(k)
+    achievement_set1 = set(achievement_list1)
+    achievement_set1.remove('')
+    achievement_set2 = set(achievement_list2)
+    get_achieve = achievement_set2 - achievement_set1
+    lose_achieve = achievement_set1 - achievement_set2
+    is_change = False
+    if get_achieve:
+        str_return += f'恭喜获得新成就{",".join(get_achieve)}'
+        is_change = True
+    if lose_achieve:
+        str_return += f'失去成就{",".join(lose_achieve)}'
+        is_change = True
+    if is_change:
+        update_u_for_sql(user_id, {'achievement': ' '.join(achievement_list2)})
 
 
 if __name__ == '__main__':
-    achievement_progress(1327960105, 111)
+    checks_achieve(1327960105)
