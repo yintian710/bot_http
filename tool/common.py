@@ -3,7 +3,7 @@
 @File  : common.py
 @Author: yintian
 @Date  : 2021/3/31 15:40
-@Desc  : 
+@Desc  : 公共方法模块
 """
 import datetime
 import json
@@ -12,7 +12,7 @@ import re
 from tool.sql import select_u_for_sql, update_u_for_sql
 
 
-def get_return(public_msg, private_msg='', code=0):
+def get_return(public_msg, private_msg='', public_id=0, private_id=0, code=0):
     """
     获取一个符合flask返回格式的dict
     :param public_msg: 返回给QQ群里展示的信息
@@ -20,7 +20,17 @@ def get_return(public_msg, private_msg='', code=0):
     :param code: 状态码, 目前无使用,默认就好
     :return:
     """
-    return json.dumps({"message": {"public": public_msg, "private": private_msg}, 'code': code})
+    return json.dumps(
+        {
+            "message":
+                {
+                    "public": public_msg,
+                    "private": private_msg,
+                    "public_id": public_id,
+                    "private_id": private_id},
+            'code': code
+        }
+    )
 
 
 def is_regis(func):
@@ -30,6 +40,7 @@ def is_regis(func):
     :param func: 被装饰的方法,也就是用户进入的方法
     :return:
     """
+
     def inner(user_id, *args, **kwargs):
         """
         查询数据库中"u"库,是否包含该用户信息,若无,则返回需要注册,有则代表已注册,执行被装饰的方法,返回其返回结果
@@ -52,6 +63,7 @@ def is_daily(func):
     :param func: 被装饰的方法,也就是用户进入的方法
     :return:
     """
+
     def inner(user_id, *args, **kwargs):
         """
         类似,检查"u"表中用户的签到日期,若与今天相同,则已签到,执行被装饰函数,否则返回需要签到
@@ -75,6 +87,7 @@ def is_admin(func):
     :param func:
     :return:
     """
+
     def inner(user_id, *args, **kwargs):
         """
         类似,检查"u"表中用户的"permission"字段,若为"admin"则放行,不然返回pa,
@@ -139,19 +152,19 @@ def change_score(user_id, score, today=''):
     update_u_for_sql(user_id, update_data)
 
 
-def add_score(user_id, new_score):
+def add_score(user_id, add_score_num):
     """
     给用户增加积分
     :param user_id:
-    :param new_score: 增加的积分数量
+    :param add_score_num: 增加的积分数量
     :return:
     """
     old_score = select_score(user_id)
-    if new_score + old_score < 0:
-        new_score = 0
+    if add_score_num + old_score < 0:
+        add_score_num = 0
     else:
-        new_score += old_score
-    update_u_for_sql(user_id, {"score": new_score})
+        add_score_num += old_score
+    update_u_for_sql(user_id, {"score": add_score_num})
 
 
 def enough_score(user_id, score):
