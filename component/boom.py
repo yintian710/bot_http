@@ -10,7 +10,7 @@ import random
 import time
 
 from tool.common import get_return, is_regis, is_daily, enough_score, add_score
-from tool.CONTANT import BOOM_SCORE, BOOM_PRICE, USER_BOOM_PRICE, pa, USER_BOOM_TAX
+from tool.CONTANT import BOOM_SCORE, BOOM_PRICE, USER_BOOM_PRICE, pa, USER_BOOM_TAX, BOOM_TIME_INTERVAL
 from tool.sql import select_game_for_sql, update_game_for_sql
 
 # 炸弹数
@@ -144,15 +144,16 @@ def new_user_boom(user_id, user_self_boom=0, group_id=''):
 
 def cannot_play_secondary(user_id):
     """
-    time_check:当前的时间错，用来对比上一次玩的时间
+    time_check：检查时间
+    time_interval:时间间隔
     :param user_id:
     :return:
     """
-    time_check = time.time()
     if user_id == player[-1]['user_id']:
-        return True
-    elif time_check - player[-1]['time'] < 60:
-        return True
+        time_check = time.time()
+        time_interval = time_check - player[-1]['time']
+        if 0 < time_interval < BOOM_TIME_INTERVAL:
+            return f'操作过于频繁，请在{int(BOOM_TIME_INTERVAL - time_interval)}秒后再试'
     return False
 
 
@@ -162,12 +163,13 @@ def is_not_continue(user_id):
     :param user_id:
     :return:
     """
+    time_remain = cannot_play_secondary(user_id)
     if not boom:
         return get_return('没有游戏进行')
     if not enough_score(user_id, BOOM_PRICE):
         return get_return('积分不足！')
-    if cannot_play_secondary(user_id):
-        return get_return('操作过于频繁，请休息一会再试')
+    if time_remain:
+        return get_return(time_remain)
     return False
 
 
