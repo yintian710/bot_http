@@ -26,28 +26,6 @@ def get_cur():
     return con, cur
 
 
-# def select_u(user_id, *args):
-#     con, cur = get_cur()
-#     sql = f'select {",".join(args)} from u where id={user_id}'
-#     res = cur.execute(sql)
-#     if res:
-#         result = cur.fetchone()
-#         return result
-#     return False
-
-
-# def update_u_for_sql(user_id, **kwargs):
-#     con, cur = get_cur()
-#     update_str = ''
-#     for _ in kwargs:
-#         update_str += f'{_}="{kwargs[_]}",'
-#     sql = f'update u set {update_str[:-1]} where id={user_id}'
-#     cur.execute(sql)
-#     con.commit()
-#     cur.close()
-#     con.close()
-
-
 def select_u_for_sql(user_id, *args):
     """
     查询"u"表中的数据,调用select_base接口
@@ -106,6 +84,26 @@ def update_game_for_sql(user_id, kwargs):
     :return:
     """
     update_base('game', {'id': user_id}, **kwargs)
+
+
+def select_bank_for_sql(user_id, *args):
+    """
+    查询"bank"表中的数据,调用select_base接口
+    :param user_id: 被查询的用户id
+    :param args: 所有被查询的字段名
+    :return:
+    """
+    return select_base('bank', *args, id=user_id)
+
+
+def update_bank_for_sql(user_id, kwargs):
+    """
+    更新"bank"表中的数据,调用update_base接口
+    :param user_id:
+    :param kwargs: 需要更改的数据dict,{需要更改的字段名:更改之后的值,...}
+    :return:
+    """
+    update_base('bank', {'id': user_id}, **kwargs)
 
 
 def select_base(base, *args, **kwargs):

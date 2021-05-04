@@ -49,7 +49,7 @@ def interest(id):
     now = datetime.datetime.now()
     days = (now - date).days
     hours = int((now - date).seconds / 3600) + days * 24
-    pays = int(loan * hours / 100)+1
+    pays = int(loan * hours / 100) + 1
     if loan == 0:
         pays = 0
     return pays, loan
@@ -70,16 +70,16 @@ def pay(id, num):
         return
     else:
         pays, x = interest(id)
-        money = pays+loan
+        money = pays + loan
     if num < pays:
         return bank_6
     else:
         if num < money:
-            gg('bank', 'id', id, 'loan', money-num)
+            gg('bank', 'id', id, 'loan', money - num)
             cur.execute(f'update u set score=score-{num} where id = {id}')
             con.commit()
             t1 = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-            cur.execute(f'update bank set loan = {money-num},date1="{t1}" where id = {id}')
+            cur.execute(f'update bank set loan = {money - num},date1="{t1}" where id = {id}')
             con.commit()
             return bank_7(money, num)
         elif num >= money:
@@ -93,7 +93,7 @@ def pay(id, num):
 async def searchscore(session: CommandSession):
     user_id = str(session.ctx['sender']['user_id'])
     if day(user_id):
-        await session.send('需要先签到的说~'+newgame, at_sender=True)
+        await session.send('需要先签到的说~' + newgame, at_sender=True)
         return
     try:
         loan, ss = loan_t(user_id)
@@ -123,7 +123,7 @@ async def jf(user_id, txt):
     cur.execute(f'select score from u where id = "{id}"')
     sc = cur.fetchone()[0]
     gg('u', 'id', user_id, 'score', int(res) - int(x[1]))
-    jjj = int(int(x[1]*uv))
+    jjj = int(int(x[1] * uv))
     gg('u', 'id', id, 'score', int(sc) + +jjj)
     return f'交易成功,{jjj}积分已到账'
 
@@ -139,9 +139,10 @@ async def ph():
     d = sorted(dict.items(), key=lambda x: x[1], reverse=True)
     str1 = '   积分排行榜   \n'
     for i in range(10):
-        str1 += f'第{i+1}名，[CQ:at,qq={d[i][0]}], 积分：{d[i][1]}\n'
+        str1 += f'第{i + 1}名，[CQ:at,qq={d[i][0]}], 积分：{d[i][1]}\n'
     con.commit()
     return str1
+
 
 async def grph(user_id):
     cur.execute(f'select id,score from u')
@@ -157,11 +158,12 @@ async def grph(user_id):
                 s1 = '首富牛逼！\n'
             elif i <= 10:
                 s1 = '前十大佬，惹不起惹不起。\n'
-            elif i >50:
+            elif i > 50:
                 s1 = '其实我不是很想搭理穷鬼...\n'
             else:
                 s1 = ''
             return s1 + f'排名：{i}\n身价：{j[1]}\n'
+
 
 def random_steal():
     a = random.randint(0, 100)
@@ -169,23 +171,24 @@ def random_steal():
         return 1, '偷窃成功'
     elif a < 35:
         return 2, '偷窃被反杀'
-    elif a <65:
+    elif a < 65:
         return 3, '偷窃被警察发现'
     else:
         return 4, '偷窃失败'
 
+
 async def steal(user_id):
     cur.execute(f'select id from u where rent =0')
     res = cur.fetchall()
-    a = random.randint(0, len(res)-1)
+    a = random.randint(0, len(res) - 1)
     id = res[a][0]
     score1 = ye(user_id)
     score2 = ye(id)
     num, str1 = random_steal()
-    if score2 <4:
+    if score2 < 4:
         return '对方是个穷光蛋呢......'
     if num == 1:
-        score = int(score2*0.3)
+        score = int(score2 * 0.3)
         kcjf(id, score)
         zjjf(user_id, score)
         try:
@@ -194,13 +197,13 @@ async def steal(user_id):
             pass
         return f'{str1},获得{score}积分'
     elif num == 2:
-        score = int(score1*0.3)
+        score = int(score1 * 0.3)
         kcjf(user_id, score)
         zjjf(id, score)
         await bot.send_msg(user_id=id, message=f'你遭遇了小偷，你反杀了他，获得{score}积分，温馨提示，您可能需要一个住房。')
         return f'{str1},损失{score}积分'
     elif num == 3:
-        score = int(score1*0.3)
+        score = int(score1 * 0.3)
         kcjf(user_id, score)
         return f'{str1},罚款{score}积分'
     else:
@@ -212,6 +215,7 @@ async def grphb(session: CommandSession):
     user_id = session.ctx['sender']['user_id']
     phb = await grph(user_id)
     await session.send(phb, at_sender=True)
+
 
 @on_command('bc', aliases=('#积分降临', 'bc'), permission=permission.SUPERUSER)
 async def bc(session: CommandSession):
@@ -246,28 +250,30 @@ async def jc(session: CommandSession):
 async def cha(session: CommandSession):
     user_id = str(session.ctx['sender']['user_id'])
     if day(user_id):
-        await session.send('需要先签到的说~'+newgame, at_sender=True)
+        await session.send('需要先签到的说~' + newgame, at_sender=True)
         return
     jf = int(session.get('jf', prompt='请输入“想要借的积分数目”，最大可以借100。\n', at_sender=True))
     str1 = bank(user_id, jf)
     await session.send(str1, at_sender=True)
 
+
 @on_command('banks', aliases=('#还积分', 'hq'), only_to_me=False)
 async def cha(session: CommandSession):
     user_id = str(session.ctx['sender']['user_id'])
     if day(user_id):
-        await session.send('需要先签到的说~'+newgame, at_sender=True)
+        await session.send('需要先签到的说~' + newgame, at_sender=True)
         return
     # await session.send(str(interest(user_id)))
     jf = int(session.get('jf', prompt='请输入“打算还的积分数目”。\n', at_sender=True))
     str1 = pay(user_id, jf)
     await session.send(str1, at_sender=True)
 
+
 @on_command('pays', aliases=('#利息',), only_to_me=False)
 async def cha(session: CommandSession):
     user_id = str(session.ctx['sender']['user_id'])
     pays, loan = interest(user_id)
-    str1 = f'当前欠款积分：{loan}\n利息：{pays}，总计待还：{loan+pays}'
+    str1 = f'当前欠款积分：{loan}\n利息：{pays}，总计待还：{loan + pays}'
     loan_t(user_id)
     await session.send(str1, at_sender=True)
 
@@ -276,7 +282,7 @@ async def cha(session: CommandSession):
 async def depo(session: CommandSession):
     user_id = str(session.ctx['sender']['user_id'])
     if day(user_id):
-        await session.send('需要先签到的说~'+newgame, at_sender=True)
+        await session.send('需要先签到的说~' + newgame, at_sender=True)
         return
     jf = session.get('jf', prompt='开户需支付两积分，是否继续？1表示继续，其余表示不继续。\n', at_sender=True)
     if jf == '1':
@@ -284,6 +290,7 @@ async def depo(session: CommandSession):
         await session.send(str1, at_sender=True)
     else:
         return
+
 
 @on_command('ph', aliases=('#积分排行榜', 'phb'), permission=permission.SUPERUSER)
 async def scgm(session: CommandSession):
@@ -310,7 +317,6 @@ async def scgm(session: CommandSession):
 #         return
 #     else:
 #         await session.send('穷鬼'+pa, at_sender=True)
-
 
 
 # @on_command('cfcx', aliases=('#财富查询', '#财富', '#我的财富', 'cf'), only_to_me=False)
