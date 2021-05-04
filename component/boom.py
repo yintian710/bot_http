@@ -149,10 +149,11 @@ def cannot_play_secondary(user_id):
     :return:
     """
     time_check = time.time()
+    time_interval = time_check - player[-1]['time']
     if user_id == player[-1]['user_id']:
-        return True
-    elif time_check - player[-1]['time'] < 60:
-        return True
+        return '请等待其他玩家猜题！'
+    elif 0 < time_interval < 60:
+        return f'操作过于频繁，请在{int(60 - time_interval)}秒后再试'
     return False
 
 
@@ -166,8 +167,9 @@ def is_not_continue(user_id):
         return get_return('没有游戏进行')
     if not enough_score(user_id, BOOM_PRICE):
         return get_return('积分不足！')
-    if cannot_play_secondary(user_id):
-        return get_return('操作过于频繁，请休息一会再试')
+    time_remain  = cannot_play_secondary(user_id)
+    if time_remain:
+        return get_return(time_remain)
     return False
 
 
