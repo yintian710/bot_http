@@ -8,7 +8,7 @@
 
 from flask import Flask, request
 
-from component.boom import boom_play, new_boom
+from component.boom import boom_play, new_boom, new_user_boom
 from component.card import search_card, draw_card, draw_ten_card, draw_hundred_card, get_card_data
 from component.score import daily_score, search_score, increase_score
 
@@ -126,6 +126,18 @@ def play():
     user_id = request.form['user_id']
     boom_num = request.form['boom_num']
     result = boom_play(user_id, boom_num)
+    return result
+
+
+@app.route('/boom/user_boom', methods=['POST'])
+def user_boom():
+    """
+    user_self_boom:new_user_boom入口
+    :return:
+    """
+    user_id = request.form['user_id']
+    user_self_boom = request.form['user_boom']
+    result = new_user_boom(user_id, user_self_boom)
     return result
 
 
