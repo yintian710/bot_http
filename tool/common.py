@@ -72,10 +72,10 @@ def is_daily(func):
         :param kwargs:
         :return:
         """
-        da = select_u_for_sql(user_id, 'da')[0]
-        today = str(datetime.date.today())
-        if da != today:
-            return get_return('需要先签到的说~')
+        # da = select_u_for_sql(user_id, 'da')[0]
+        # today = str(datetime.date.today())
+        # if da != today:
+        #     return get_return('需要先签到的说~')
         return func(user_id, *args, **kwargs)
 
     return inner
