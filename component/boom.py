@@ -62,26 +62,26 @@ def can_to_int(int1):
     return int1
 
 
-def get_reward_score(left, right):
+def get_reward_score(_left, _right):
     """
     依据答对时的区间决定奖励积分数
-    :param left:
-    :param right:
+    :param _left:
+    :param _right:
     :return:
     """
-    if right - left == 100:
+    if _right - _left == 100:
         reward_score = 66
-    elif right - left >= 80:
+    elif _right - _left >= 80:
         reward_score = 40
-    elif right - left >= 30:
+    elif _right - _left >= 30:
         reward_score = 24
-    elif right - left >= 20:
+    elif _right - _left >= 20:
         reward_score = 20
-    elif right - left >= 10:
+    elif _right - _left >= 10:
         reward_score = 14
-    elif right - left > 3:
+    elif _right - _left > 3:
         reward_score = 10
-    elif right - left == 3:
+    elif _right - _left == 3:
         reward_score = 8
     else:
         reward_score = 6
@@ -111,25 +111,25 @@ def new_boom(user_id):
 
 @is_regis
 @is_daily
-def new_user_boom(user_id, user_boom=0, group_id=''):
+def new_user_boom(user_id, user_self_boom=0, group_id=''):
     """
     玩家开启数字炸弹，并且将boom设置为玩家定好的数字
     要是存在group_id，则随机设定boom
     同时设定boom_owner和boom_type
     :param user_id:
-    :param user_boom:
+    :param user_self_boom:用户自定义boom
     :param group_id:
     :return:
     """
     global boom, boom_owner, boom_type
-    user_boom = can_to_int(user_boom)
+    user_self_boom = can_to_int(user_self_boom)
     if boom_type:
         return get_return('已经有游戏正在进行！')
     to_zero()
-    if not 0 < user_boom < 100:
+    if not 0 < user_self_boom < 100:
         return get_return('给爷爬！游戏范围都不知道了？')
     to_zero()
-    boom = user_boom
+    boom = user_self_boom
     if group_id:
         boom = random.randint(1, 99)
     score = enough_score(user_id, USER_BOOM_PRICE)
@@ -142,6 +142,20 @@ def new_user_boom(user_id, user_boom=0, group_id=''):
     return get_return('创建成功')
 
 
+def cannot_play_secondary(user_id):
+    """
+    time_check:当前的时间错，用来对比上一次玩的时间
+    :param user_id:
+    :return:
+    """
+    time_check = time.time()
+    if user_id == player[-1]['user_id']:
+        return True
+    elif time_check - player[-1]['time'] < 60:
+        return True
+    return False
+
+
 def is_not_continue(user_id):
     """
     验证游戏是否可以继续玩
@@ -152,6 +166,8 @@ def is_not_continue(user_id):
         return get_return('没有游戏进行')
     if not enough_score(user_id, BOOM_PRICE):
         return get_return('积分不足！')
+    if cannot_play_secondary(user_id):
+        return get_return('操作过于频繁，请休息一会再试')
     return False
 
 
@@ -160,6 +176,7 @@ def is_not_continue(user_id):
 def boom_play(user_id, boom_num):
     """
     判断boom_num与boom的大小,并提示接下来的游戏范围,当一个人猜对时,置零所有参数
+    time_start:开始游戏时的时间戳
     :param user_id:
     :param boom_num:
     :return:
@@ -187,7 +204,7 @@ def boom_play(user_id, boom_num):
             owner_score = USER_BOOM_PRICE + boom_consume - reward_score - USER_BOOM_TAX
             str1 = get_return(public_msg=f'恭喜你答对了, 获得积分{BOOM_SCORE}',
                               private_msg=f'您做庄的数游戏已结束,扣除4积分启动分，玩家获胜分{reward_score}\n'
-                              f'玩家总参与积分{boom_consume}\n返还给您{owner_score}积分。',
+                                          f'玩家总参与积分{boom_consume}\n返还给您{owner_score}积分。',
                               private_id=boom_owner)
             add_score(boom_owner, owner_score)
         else:
