@@ -8,6 +8,7 @@
 
 from flask import Flask, request
 
+from component.achievement import select_achievement, achievement_progress
 from component.boom import boom_play, new_boom, new_user_boom
 from component.card import search_card, draw_card, draw_ten_card, draw_hundred_card, get_card_data
 from component.score import daily_score, search_score, increase_score
@@ -138,6 +139,28 @@ def user_boom():
     user_id = request.form['user_id']
     user_self_boom = request.form['user_boom']
     result = new_user_boom(user_id, user_self_boom)
+    return result
+
+
+@app.route('/achievement/search', methods=['POST'])
+def achieve_search():
+    """
+    查询成就入口
+    :return:
+    """
+    user_id = request.form['user_id']
+    result = select_achievement(user_id)
+    return result
+
+
+@app.route('/achievement/progress', methods=['POST'])
+def achieve_one_progress():
+    """
+    查询成就入口
+    :return:
+    """
+    user_id = request.form['user_id']
+    result = achievement_progress(user_id)
     return result
 
 

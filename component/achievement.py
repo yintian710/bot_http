@@ -8,7 +8,7 @@
 """
 from tool.achieve_list import achieve_list
 from tool.card_contant import cardlist
-from tool.common import get_return
+from tool.common import get_return, is_regis
 from tool.sql import select_u_for_sql, select_card_for_sql, update_u_for_sql
 
 
@@ -19,6 +19,7 @@ def is_have_zero(list1: list):
     return False
 
 
+@is_regis
 def select_achievement(user_id):
     """
     查询用户成就
