@@ -6,6 +6,7 @@
 @Desc  : 
 """
 import datetime
+import json
 import random
 
 from tool.common import get_return, is_regis, change_score, select_score, enough_score, is_admin, add_score
@@ -58,6 +59,12 @@ def search_score(user_id):
     if score:
         return get_return(f'积分：{score}')
     return '穷鬼爬'
+
+
+@is_regis
+def get_score(user_id):
+    score = select_score(user_id)
+    return json.dumps({'score': score})
 
 
 @is_admin

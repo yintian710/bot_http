@@ -11,7 +11,7 @@ from flask import Flask, request
 from component.achievement import select_achievement, achievement_progress
 from component.boom import boom_play, new_boom, new_user_boom
 from component.card import search_card, draw_card, draw_ten_card, draw_hundred_card, get_card_data
-from component.score import daily_score, search_score, increase_score
+from component.score import daily_score, search_score, increase_score, get_score
 
 app = Flask(__name__)
 
@@ -19,6 +19,13 @@ app = Flask(__name__)
 @app.route('/')
 def hello_world():
     return 'Hello World!'
+
+
+@app.route('/score', methods=['POST'])
+def score():
+    user_id = request.form['user_id']
+    result = get_score(user_id)
+    return result
 
 
 @app.route('/score/daily/', methods=['POST'])
