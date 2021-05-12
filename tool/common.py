@@ -12,25 +12,30 @@ import re
 from tool.sql import select_u_for_sql, update_u_for_sql
 
 
-def get_return(public_msg, private_msg='', public_id=0, private_id=0, code=0):
+def get_return(public_msg, private_msg='', public_id=0, private_id=0, need=None, code=0):
     """
     获取一个符合flask返回格式的dict
+    :param need: 需要额外发送的数据
+    :param private_id: 发送私聊的id
+    :param public_id: 发送群聊的id
     :param public_msg: 返回给QQ群里展示的信息
     :param private_msg: 返回给私聊的信息
     :param code: 状态码, 目前无使用,默认就好
     :return:
     """
-    return json.dumps(
-        {
-            "message":
-                {
-                    "public": public_msg,
-                    "private": private_msg,
-                    "public_id": public_id,
-                    "private_id": private_id},
-            'code': code
-        }
-    )
+    if need is None:
+        need = {}
+    return_data = {
+        "message":
+            {
+                "public": public_msg,
+                "private": private_msg,
+                "public_id": public_id,
+                "private_id": private_id},
+        'code': code
+    }
+    return_data = {**return_data, **need}
+    return return_data
 
 
 def is_regis(func):

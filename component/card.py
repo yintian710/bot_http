@@ -98,7 +98,7 @@ def draw_card(user_id):
     img, str1, lv = get_random_card()
     str1 = f'花费{CARD_PRICE}积分，获得{lv}卡：{img}。'
     archive_card(user_id, img, lv, 1)
-    return get_return(str1)
+    return get_return(str1, need={'card': img})
 
 
 @is_regis

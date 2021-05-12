@@ -28,7 +28,7 @@ def score():
     return result
 
 
-@app.route('/score/daily/', methods=['POST'])
+@app.route('/score/daily', methods=['POST'])
 def score_daily():
     """
     签到入口
@@ -39,7 +39,7 @@ def score_daily():
     return result
 
 
-@app.route('/score/search/', methods=['POST'])
+@app.route('/score/search', methods=['POST'])
 def score_search():
     """
     查询积分入口
@@ -50,7 +50,7 @@ def score_search():
     return result
 
 
-@app.route('/score/admin_increase/', methods=['POST'])
+@app.route('/score/admin_increase', methods=['POST'])
 def admin_increase():
     """
     管理员插入积分入口
@@ -62,7 +62,7 @@ def admin_increase():
     return result
 
 
-@app.route('/card/search/', methods=['POST'])
+@app.route('/card/search', methods=['POST'])
 def card_search():
     """
     查询卡牌入口
