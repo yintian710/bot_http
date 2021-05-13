@@ -173,4 +173,5 @@ def achieve_one_progress():
 
 if __name__ == '__main__':
     # 运行flask.app
-    app.run(host='0.0.0.0', port=4399)
+    app.run(host='0.0.0.0', port=4399, ssl_context=(
+        r'C:\Users\银天\Desktop\SSL\5599113_wx.yintian.vip.pem', r'C:\Users\银天\Desktop\SSL\5599113_wx.yintian.vip.key'))
