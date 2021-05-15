@@ -11,7 +11,10 @@ from flask import Flask, request
 from component.achievement import select_achievement, achievement_progress
 from component.boom import boom_play, new_boom, new_user_boom
 from component.card import search_card, draw_card, draw_ten_card, draw_hundred_card, get_card_data
+from component.regis import is_wx_regis, wx_regis, get_verify_code, delete_wx_regis
 from component.score import daily_score, search_score, increase_score, get_score
+from component.wx import get_login_openid
+from tool.CONTANT import SSL_KEY_PATH, SSL_PEM_PATH
 
 app = Flask(__name__)
 
@@ -57,8 +60,8 @@ def admin_increase():
     :return:
     """
     user_id = request.form['user_id']
-    score = int(request.form['score'])
-    result = increase_score(user_id, score)
+    score_ = int(request.form['score'])
+    result = increase_score(user_id, score_)
     return result
 
 
@@ -171,7 +174,43 @@ def achieve_one_progress():
     return result
 
 
+@app.route('/get_open_id', methods=['POST'])
+def get_open_id():
+    data = request.get_data()
+    result = get_login_openid(data)
+    return result
+
+
+@app.route('/is_wx_regis', methods=['POST'])
+def get_wx_regis():
+    openid = request.form['openid']
+    result = is_wx_regis(openid)
+    return result
+
+
+@app.route('/wx_regis', methods=['POST'])
+def do_wx_regis():
+    user_id = request.form['user_id']
+    verify_code = request.form['verify_code']
+    openid = request.form['openid']
+    result = wx_regis(user_id, verify_code, openid)
+    return result
+
+
+@app.route('/get_verify_code', methods=['POST'])
+def set_verify_code():
+    user_id = request.form['user_id']
+    result = get_verify_code(user_id)
+    return result
+
+
+@app.route('/delete_wx_regis', methods=['POST'])
+def remove_wx_regis():
+    user_id = request.form['user_id']
+    result = delete_wx_regis(user_id)
+    return result
+
+
 if __name__ == '__main__':
     # 运行flask.app
-    app.run(host='0.0.0.0', port=4399, ssl_context=(
-        r'C:\Users\银天\Desktop\SSL\5599113_wx.yintian.vip.pem', r'C:\Users\银天\Desktop\SSL\5599113_wx.yintian.vip.key'))
+    app.run(host='0.0.0.0', port=4399, ssl_context=(SSL_PEM_PATH, SSL_KEY_PATH))

@@ -57,12 +57,17 @@ def search_score(user_id):
     """
     score = select_score(user_id)
     if score:
-        return get_return(f'积分：{score}')
+        return get_return(f'积分：{score}', need={'score': score})
     return '穷鬼爬'
 
 
 @is_regis
 def get_score(user_id):
+    """
+    返回纯净可操作性的积分数额
+    :param user_id:
+    :return:
+    """
     score = select_score(user_id)
     return json.dumps({'score': score})
 

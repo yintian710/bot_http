@@ -34,7 +34,7 @@ def get_return(public_msg, private_msg='', public_id=0, private_id=0, need=None,
                 "private_id": private_id},
         'code': code
     }
-    return_data = {**return_data, **need}
+    return_data = json.dumps({**return_data, **need})
     return return_data
 
 

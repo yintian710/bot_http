@@ -46,6 +46,54 @@ def update_u_for_sql(user_id, kwargs):
     update_base('u', {'id': user_id}, **kwargs)
 
 
+def insert_u_for_sql(user_id):
+    """
+    添加用户
+    :param user_id:
+    :return:
+    """
+    insert_base('u', user_id)
+
+
+def select_wx_for_sql(user_id, *args):
+    """
+    查询"wx"表中的数据,调用select_base接口
+    :param user_id: 被查询的用户id
+    :param args: 所有被查询的字段名
+    :return:
+    """
+    return select_base('wx', *args, id=user_id)
+
+
+def select_any_in_wx_for_sql(where_dict, *args):
+    """
+    查询"wx"表中的数据,调用select_base接口, 不以user_id为查询
+    :param where_dict: 查询条件dict,{字段名：值}
+    :param kwargs: 需要更改的数据dict,{需要更改的字段名:更改之后的值,...}
+    :return:
+    """
+    return select_base('wx', *args, **where_dict)
+
+
+def update_wx_for_sql(user_id, kwargs):
+    """
+    更新"wx"表中的数据,调用update_base接口
+    :param user_id:
+    :param kwargs: 需要更改的数据dict,{需要更改的字段名:更改之后的值,...}
+    :return:
+    """
+    update_base('wx', {'id': user_id}, **kwargs)
+
+
+def insert_wx_for_sql(user_id):
+    """
+    添加微信用户
+    :param user_id:
+    :return:
+    """
+    insert_base('wx', user_id)
+
+
 def select_card_for_sql(user_id, *args):
     """
     查询"card"表中的数据,调用select_base接口
@@ -106,6 +154,21 @@ def update_bank_for_sql(user_id, kwargs):
     update_base('bank', {'id': user_id}, **kwargs)
 
 
+def insert_base(base, user_id):
+    """
+    增加数据
+    :param base:
+    :param user_id:
+    :return:
+    """
+    con, cur = get_cur()
+    sql = f'insert into {base}(Id) value({user_id})'
+    cur.execute(sql)
+    con.commit()
+    cur.close()
+    con.close()
+
+
 def select_base(base, *args, **kwargs):
     """
     查询数据库底层接口
@@ -117,7 +180,7 @@ def select_base(base, *args, **kwargs):
     con, cur = get_cur()
     where_str = ''
     for _ in kwargs:
-        where_str = f'{_}={kwargs[_]}'
+        where_str = f'{_}="{kwargs[_]}"'
     sql = f'select {",".join(args)} from {base}'
     if where_str:
         sql += f' where {where_str}'

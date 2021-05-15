@@ -33,6 +33,10 @@ BOT_PATH = PROJECT_PATH[:PROJECT_PATH.find('bot_http') + 8]
 
 SQL_PATH = BOT_PATH + r'\ignore\sql.json'
 
+SSL_KEY_PATH = BOT_PATH + r'\ignore\wx.key'
+
+SSL_PEM_PATH = BOT_PATH + r'\ignore\wx.pem'
+
 IMG_PATH = {
     'N': BOT_PATH + r'\json_data\N.json',
     'R': BOT_PATH + r'\json_data\R.json',
@@ -41,7 +45,7 @@ IMG_PATH = {
     'UR': BOT_PATH + r'\json_data\UR.json',
 }
 
-pa = '{"message": {"public": "爬", "private": ""}, "code": 0}'
+pa = '{"message": {"public": "爬", "private": ""}, "code": 1}'
 
 if __name__ == '__main__':
     print()
