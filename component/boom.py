@@ -11,7 +11,7 @@ import time
 
 from tool.common import get_return, is_regis, is_daily, enough_score, add_score
 from tool.CONTANT import BOOM_SCORE, BOOM_PRICE, USER_BOOM_PRICE, pa, USER_BOOM_TAX, BOOM_TIME_INTERVAL
-from tool.sql import select_game_for_sql, update_game_for_sql
+from tool.sql import select_game, update_game
 
 # 炸弹数
 boom = 0
@@ -99,12 +99,12 @@ def new_boom(user_id):
     """
     global boom, boom_type
     if not boom_type:
-        if select_game_for_sql(user_id, 'boom'):
+        if select_game(user_id, 'boom'):
             return pa
         to_zero()
         boom = random.randint(1, 99)
         boom_type = 1
-        update_game_for_sql(user_id, {'boom': 1})
+        update_game(user_id, {'boom': 1})
         return get_return('游戏创建成功！')
     return get_return('已经有游戏正在进行！')
 

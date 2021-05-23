@@ -24,13 +24,6 @@ def hello_world():
     return 'Hello World!'
 
 
-@app.route('/score', methods=['POST'])
-def score():
-    user_id = request.form['user_id']
-    result = get_score(user_id)
-    return result
-
-
 @app.route('/score/daily', methods=['POST'])
 def score_daily():
     """
@@ -174,22 +167,34 @@ def achieve_one_progress():
     return result
 
 
-@app.route('/get_open_id', methods=['POST'])
+@app.route('/wx/get_open_id', methods=['POST'])
 def get_open_id():
+    """
+    获取微信openid入口
+    :return:
+    """
     data = request.get_data()
     result = get_login_openid(data)
     return result
 
 
-@app.route('/is_wx_regis', methods=['POST'])
+@app.route('/wx/is_wx_regis', methods=['POST'])
 def get_wx_regis():
+    """
+    根据微信openid获取是否已经注册的方法入口
+    :return:
+    """
     openid = request.form['openid']
     result = is_wx_regis(openid)
     return result
 
 
-@app.route('/wx_regis', methods=['POST'])
+@app.route('/wx/wx_regis', methods=['POST'])
 def do_wx_regis():
+    """
+    使用验证码尝试注册
+    :return:
+    """
     user_id = request.form['user_id']
     verify_code = request.form['verify_code']
     openid = request.form['openid']
@@ -197,15 +202,23 @@ def do_wx_regis():
     return result
 
 
-@app.route('/get_verify_code', methods=['POST'])
+@app.route('/wx/get_verify_code', methods=['POST'])
 def set_verify_code():
+    """
+    获取验证码
+    :return:
+    """
     user_id = request.form['user_id']
     result = get_verify_code(user_id)
     return result
 
 
-@app.route('/delete_wx_regis', methods=['POST'])
+@app.route('/wx/delete_wx_regis', methods=['POST'])
 def remove_wx_regis():
+    """
+    注销入口
+    :return:
+    """
     user_id = request.form['user_id']
     result = delete_wx_regis(user_id)
     return result

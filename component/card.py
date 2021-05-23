@@ -6,7 +6,7 @@
 @file: card.py
 """
 from tool.common import is_regis, is_daily, select_score, add_score, get_return, change_score
-from tool.sql import select_card_for_sql, select_u_for_sql, update_card_for_sql, update_u_for_sql
+from tool.sql import select_card, select_u, update_card, update_u
 from tool.card_contant import *
 from random import choice, randint
 from tool.CONTANT import CARD_PRICE, pa, RE_PRICE
@@ -23,10 +23,10 @@ def archive_card(user_id, img, lv, num=1):
     """
     if '.jpg' in img:
         img = img[:-4]
-    img_num = select_card_for_sql(user_id, img)[0]
-    lv_num = select_u_for_sql(user_id, lv)[0]
-    update_card_for_sql({"id": user_id}, {img: img_num + num})
-    update_u_for_sql(user_id, {lv: lv_num + num})
+    img_num = select_card(user_id, img)[0]
+    lv_num = select_u(user_id, lv)[0]
+    update_card({"id": user_id}, {img: img_num + num})
+    update_u(user_id, {lv: lv_num + num})
 
 
 def archive_cards(user_id, imgs: dict, lvs: dict):
@@ -39,14 +39,14 @@ def archive_cards(user_id, imgs: dict, lvs: dict):
     """
     img_list = list(imgs.keys())
     lv_list = list(lvs.keys())
-    img_num = select_card_for_sql(user_id, *img_list)
-    lv_num = select_u_for_sql(user_id, *lv_list)
+    img_num = select_card(user_id, *img_list)
+    lv_num = select_u(user_id, *lv_list)
     for i, _ in enumerate(img_list):
         imgs[_] += img_num[i]
     for i, _ in enumerate(lv_list):
         lvs[_] += lv_num[i]
-    update_card_for_sql({"id": user_id}, imgs)
-    update_u_for_sql(user_id, lvs)
+    update_card({"id": user_id}, imgs)
+    update_u(user_id, lvs)
 
 
 def get_random_card():
@@ -144,7 +144,7 @@ def search_card(user_id):
     :param user_id:
     :return:
     """
-    res = select_u_for_sql(user_id, 'N', 'R', 'SR', "SSR", 'UR')
+    res = select_u(user_id, 'N', 'R', 'SR', "SSR", 'UR')
     str1 = f'N:{res[0]}  R:{res[1]}  SR:{res[2]}  SSR:{res[3]}  UR:{res[4]}'
     return get_return(str1)
 
@@ -194,7 +194,7 @@ def get_card_data(user_id, card_name):
     :param card_name: 卡牌名称
     :return:
     """
-    res = select_card_for_sql(user_id, card_name)[0]
+    res = select_card(user_id, card_name)[0]
     if res == 0:
         return pa
     card_data = card_img[level[card_name]][card_name]
@@ -211,12 +211,12 @@ def sell_card(user_id, card_name, nums=1):
     :param nums: 售卖的数量
     :return:
     """
-    res = select_card_for_sql(user_id, card_name)[0]
+    res = select_card(user_id, card_name)[0]
     if res < nums:
         return pa
     sell_score = RE_PRICE[level[card_name]] * nums
     add_score(user_id, sell_score)
-    update_card_for_sql({'user_id': user_id}, {card_name: res - nums})
+    update_card({'user_id': user_id}, {card_name: res - nums})
 
 
 if __name__ == '__main__':

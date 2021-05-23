@@ -26,7 +26,7 @@ def get_cur():
     return con, cur
 
 
-def select_u_for_sql(user_id, *args):
+def select_u(user_id, *args):
     """
     查询"u"表中的数据,调用select_base接口
     :param user_id: 被查询的用户id
@@ -36,7 +36,7 @@ def select_u_for_sql(user_id, *args):
     return select_base('u', *args, id=user_id)
 
 
-def update_u_for_sql(user_id, kwargs):
+def update_u(user_id, kwargs):
     """
     更新"u"表中的数据,调用update_base接口
     :param user_id:
@@ -46,16 +46,16 @@ def update_u_for_sql(user_id, kwargs):
     update_base('u', {'id': user_id}, **kwargs)
 
 
-def insert_u_for_sql(user_id):
+def insert_u(user_id):
     """
-    添加用户
+    注册u表
     :param user_id:
     :return:
     """
     insert_base('u', user_id)
 
 
-def select_wx_for_sql(user_id, *args):
+def select_wx(user_id, *args):
     """
     查询"wx"表中的数据,调用select_base接口
     :param user_id: 被查询的用户id
@@ -65,7 +65,7 @@ def select_wx_for_sql(user_id, *args):
     return select_base('wx', *args, id=user_id)
 
 
-def select_any_in_wx_for_sql(where_dict, *args):
+def select_any_in_wx(where_dict, *args):
     """
     查询"wx"表中的数据,调用select_base接口, 不以user_id为查询
     :param where_dict: 查询条件dict,{字段名：值}
@@ -75,7 +75,7 @@ def select_any_in_wx_for_sql(where_dict, *args):
     return select_base('wx', *args, **where_dict)
 
 
-def update_wx_for_sql(user_id, kwargs):
+def update_wx(user_id, kwargs):
     """
     更新"wx"表中的数据,调用update_base接口
     :param user_id:
@@ -85,16 +85,16 @@ def update_wx_for_sql(user_id, kwargs):
     update_base('wx', {'id': user_id}, **kwargs)
 
 
-def insert_wx_for_sql(user_id):
+def insert_wx(user_id):
     """
-    添加微信用户
+    注册wx表
     :param user_id:
     :return:
     """
     insert_base('wx', user_id)
 
 
-def select_card_for_sql(user_id, *args):
+def select_card(user_id, *args):
     """
     查询"card"表中的数据,调用select_base接口
     :param user_id: 被查询的用户id
@@ -104,7 +104,7 @@ def select_card_for_sql(user_id, *args):
     return select_base('card', *args, id=user_id)
 
 
-def update_card_for_sql(where_dict, kwargs):
+def update_card(where_dict, kwargs):
     """
     更新"card"表中的数据,调用update_base接口
     :param where_dict: 查询条件dict,{字段名：值}
@@ -114,7 +114,16 @@ def update_card_for_sql(where_dict, kwargs):
     update_base('card', where_dict, **kwargs)
 
 
-def select_game_for_sql(user_id, *args):
+def insert_card(user_id):
+    """
+    注册card表
+    :param user_id:
+    :return:
+    """
+    insert_base('card', user_id)
+
+
+def select_game(user_id, *args):
     """
     查询"game"表中的数据,调用select_base接口
     :param user_id: 被查询的用户id
@@ -124,7 +133,7 @@ def select_game_for_sql(user_id, *args):
     return select_base('game', *args, id=user_id)
 
 
-def update_game_for_sql(user_id, kwargs):
+def update_game(user_id, kwargs):
     """
     更新"game"表中的数据,调用update_base接口
     :param user_id:
@@ -134,7 +143,16 @@ def update_game_for_sql(user_id, kwargs):
     update_base('game', {'id': user_id}, **kwargs)
 
 
-def select_bank_for_sql(user_id, *args):
+def insert_game(user_id):
+    """
+    插入游戏用户信息
+    :param user_id:
+    :return:
+    """
+    insert_base('game', user_id)
+
+
+def select_bank(user_id, *args):
     """
     查询"bank"表中的数据,调用select_base接口
     :param user_id: 被查询的用户id
@@ -144,7 +162,7 @@ def select_bank_for_sql(user_id, *args):
     return select_base('bank', *args, id=user_id)
 
 
-def update_bank_for_sql(user_id, kwargs):
+def update_bank(user_id, kwargs):
     """
     更新"bank"表中的数据,调用update_base接口
     :param user_id:
@@ -152,6 +170,15 @@ def update_bank_for_sql(user_id, kwargs):
     :return:
     """
     update_base('bank', {'id': user_id}, **kwargs)
+
+
+def insert_bank(user_id):
+    """
+    注册bank表信息
+    :param user_id:
+    :return:
+    """
+    insert_base('bank', user_id)
 
 
 def insert_base(base, user_id):

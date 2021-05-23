@@ -9,7 +9,7 @@ import datetime
 import json
 import re
 
-from tool.sql import select_u_for_sql, update_u_for_sql
+from tool.sql import select_u, update_u
 
 
 def get_return(public_msg, private_msg='', public_id=0, private_id=0, need=None, code=0):
@@ -54,7 +54,7 @@ def is_regis(func):
         :param kwargs:
         :return:
         """
-        if not select_u_for_sql(user_id, 'id'):
+        if not select_u(user_id, 'id'):
             return get_return('您还没有注册，请先注册')
         return func(user_id, *args, **kwargs)
 
@@ -101,7 +101,7 @@ def is_admin(func):
         :param kwargs:
         :return:
         """
-        permission = select_u_for_sql(user_id, 'permission')
+        permission = select_u(user_id, 'permission')
         if not permission or permission != ('admin',):
             return get_return('爬')
         return func(user_id, *args, **kwargs)
@@ -136,7 +136,7 @@ def select_score(user_id):
     :param user_id:
     :return:
     """
-    score = select_u_for_sql(user_id, 'score')[0]
+    score = select_u(user_id, 'score')[0]
     return score
 
 
@@ -154,7 +154,7 @@ def change_score(user_id, score, today=''):
         update_data = {'score': score, 'da': today}
     else:
         update_data = {'score': score}
-    update_u_for_sql(user_id, update_data)
+    update_u(user_id, update_data)
 
 
 def add_score(user_id, add_score_num):
@@ -169,7 +169,7 @@ def add_score(user_id, add_score_num):
         add_score_num = 0
     else:
         add_score_num += old_score
-    update_u_for_sql(user_id, {"score": add_score_num})
+    update_u(user_id, {"score": add_score_num})
 
 
 def enough_score(user_id, score):

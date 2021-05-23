@@ -9,7 +9,7 @@
 from tool.achieve_list import achieve_list
 from tool.card_contant import cardlist
 from tool.common import get_return, is_regis
-from tool.sql import select_u_for_sql, select_card_for_sql, update_u_for_sql
+from tool.sql import select_u, select_card, update_u
 
 
 def is_have_zero(list1: list):
@@ -26,7 +26,7 @@ def select_achievement(user_id):
     :param user_id:
     :return:
     """
-    achievement = select_u_for_sql(user_id, 'achievement')[0]
+    achievement = select_u(user_id, 'achievement')[0]
     achievement_num = len(achievement.split(' ')) - 1
     str1 = f'您的成就有：{achievement}， 共{achievement_num}个'
     return get_return(str1)
@@ -39,7 +39,7 @@ def one_achievement_progress(user_id, achievement):
     :param achievement: 成就名
     :return:
     """
-    cards = select_card_for_sql(user_id, '*')
+    cards = select_card(user_id, '*')
     card = {}
     for i in range(1, len(cards)):
         card[cardlist[i]] = cards[i]
@@ -74,11 +74,11 @@ def checks_achieve(user_id):
     :param card_names: 新获取到的卡牌内容
     :return:
     """
-    achievement_list1 = select_u_for_sql(user_id, 'achievement')[0].split(' ')
+    achievement_list1 = select_u(user_id, 'achievement')[0].split(' ')
     achievement_list2 = []
     str_return = ''
     for k, v in achieve_list.items():
-        res = select_card_for_sql(user_id, *v)
+        res = select_card(user_id, *v)
         if not is_have_zero(res):
             achievement_list2.append(k)
     achievement_set1 = set(achievement_list1)
@@ -94,7 +94,7 @@ def checks_achieve(user_id):
         str_return += f'失去成就{",".join(lose_achieve)}'
         is_change = True
     if is_change:
-        update_u_for_sql(user_id, {'achievement': ' '.join(achievement_list2)})
+        update_u(user_id, {'achievement': ' '.join(achievement_list2)})
 
 
 if __name__ == '__main__':

@@ -10,7 +10,7 @@ import json
 import random
 
 from tool.common import get_return, is_regis, change_score, select_score, enough_score, is_admin, add_score
-from tool.sql import select_u_for_sql
+from tool.sql import select_u
 
 
 @is_regis
@@ -20,7 +20,7 @@ def daily_score(user_id):
     :param user_id:
     :return:
     """
-    score, da = select_u_for_sql(user_id, 'score', 'da')
+    score, da = select_u(user_id, 'score', 'da')
     today = str(datetime.date.today())
     # if da == today:
     #     return get_return('臭不要脸签两次的爬！', 1)

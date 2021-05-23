@@ -31,7 +31,7 @@ PROJECT_PATH = os.getcwd()
 
 BOT_PATH = PROJECT_PATH[:PROJECT_PATH.find('bot_http') + 8]
 
-SQL_PATH = BOT_PATH + r'\ignore\sql.json'
+SQL_PATH = BOT_PATH + r'\ignore\sqll.json'
 
 SSL_KEY_PATH = BOT_PATH + r'\ignore\wx.key'
 

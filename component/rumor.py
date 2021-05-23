@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-@File  : game.py
+@File  : rumor.py
 @Author: yintian
 @Date  : 2021/3/31 17:30
 @Desc  : 谣言模块
