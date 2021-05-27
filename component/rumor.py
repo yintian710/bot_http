@@ -19,7 +19,7 @@ def rumor(user_id, message):
     """
     score = enough_score(user_id, RUMOR_PRICE)
     if not score:
-        return get_return('爬')
+        return get_return('爬', code=1)
 
 
 if __name__ == '__main__':

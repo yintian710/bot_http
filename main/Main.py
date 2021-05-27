@@ -12,7 +12,7 @@ from component.achievement import select_achievement, achievement_progress
 from component.boom import boom_play, new_boom, new_user_boom
 from component.card import search_card, draw_card, draw_ten_card, draw_hundred_card, get_card_data
 from component.regis import is_wx_regis, wx_regis, get_verify_code, delete_wx_regis
-from component.score import daily_score, search_score, increase_score, get_score
+from component.score import daily_score, search_score, increase_score
 from component.wx import get_login_openid
 from tool.CONTANT import SSL_KEY_PATH, SSL_PEM_PATH
 

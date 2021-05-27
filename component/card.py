@@ -93,7 +93,7 @@ def draw_card(user_id):
     """
     score = select_score(user_id)
     if score < CARD_PRICE:
-        return get_return('爬')
+        return get_return('爬', code=1)
     add_score(user_id, -CARD_PRICE)
     img, str1, lv = get_random_card()
     str1 = f'花费{CARD_PRICE}积分，获得{lv}卡：{img}。'
@@ -111,7 +111,7 @@ def draw_ten_card(user_id):
     """
     score = select_score(user_id)
     if score < CARD_PRICE * 9:
-        return get_return('爬')
+        return get_return('爬', code=1)
     add_score(user_id, -9 * CARD_PRICE)
     str1 = f'花费{CARD_PRICE * 9}积分。\n'
     n_NUM = 0
@@ -159,7 +159,7 @@ def draw_hundred_card(user_id):
     """
     score = select_score(user_id)
     if score < CARD_PRICE * 80:
-        return get_return('爬')
+        return pa
     lv_num = {'UR': 0, "SSR": 0, 'SR': 0, 'R': 0, 'N': 0}
     card_num = {'N': [], 'R': [], 'SR': [], "SSR": [], 'UR': []}
     imgs = {}

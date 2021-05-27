@@ -9,6 +9,7 @@ import datetime
 import json
 import re
 
+from tool.CONTANT import pa
 from tool.sql import select_u, update_u
 
 
@@ -55,7 +56,7 @@ def is_regis(func):
         :return:
         """
         if not select_u(user_id, 'id'):
-            return get_return('您还没有注册，请先注册')
+            return get_return('您还没有注册，请先注册', code=1)
         return func(user_id, *args, **kwargs)
 
     return inner
@@ -80,7 +81,7 @@ def is_daily(func):
         # da = select_u_for_sql(user_id, 'da')[0]
         # today = str(datetime.date.today())
         # if da != today:
-        #     return get_return('需要先签到的说~')
+        #     return get_return('需要先签到的说~', code=1)
         return func(user_id, *args, **kwargs)
 
     return inner
@@ -103,7 +104,7 @@ def is_admin(func):
         """
         permission = select_u(user_id, 'permission')
         if not permission or permission != ('admin',):
-            return get_return('爬')
+            return pa
         return func(user_id, *args, **kwargs)
 
     return inner
