@@ -102,7 +102,8 @@ def draw_hundred():
     return result
 
 
-@app.route('/card/get_data', methods=['POST'])
+@app.route('yintian'
+           '', methods=['POST'])
 def card_get_data():
     """
     获取卡牌base64内容入口
