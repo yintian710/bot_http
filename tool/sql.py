@@ -55,6 +55,35 @@ def insert_u(user_id):
     insert_base('u', user_id)
 
 
+def select_eat(user_id, *args):
+    """
+    查询"eat"表中的数据,调用select_base接口
+    :param user_id: 被查询的用户id
+    :param args: 所有被查询的字段名
+    :return:
+    """
+    return select_base('eat', *args, id=user_id)
+
+
+def update_eat(user_id, kwargs):
+    """
+    更新"eat"表中的数据,调用update_base接口
+    :param user_id:
+    :param kwargs: 需要更改的数据dict,{需要更改的字段名:更改之后的值,...}
+    :return:
+    """
+    update_base('eat', {'id': user_id}, **kwargs)
+
+
+def insert_u(user_id):
+    """
+    注册eat表
+    :param user_id:
+    :return:
+    """
+    insert_base('eat', user_id)
+
+
 def select_wx(user_id, *args):
     """
     查询"wx"表中的数据,调用select_base接口
