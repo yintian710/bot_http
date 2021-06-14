@@ -45,6 +45,9 @@ IMG_PATH = {
     'UR': BOT_PATH + r'\json_data\UR.json',
 }
 
+GO_WEIGHT = 5
+NEXT_WEIGHT = -2
+
 pa = '{"message": {"public": "爬", "private": ""}, "code": 1}'
 
 if __name__ == '__main__':
