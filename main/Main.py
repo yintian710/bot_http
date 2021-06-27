@@ -6,17 +6,14 @@
 @Desc  : 主方法,在这里面写入方法入口,与http通信
 """
 
-from flask import Flask, request
-
 from component.achievement import select_achievement, achievement_progress
 from component.boom import boom_play, new_boom, new_user_boom
 from component.card import search_card, draw_card, draw_ten_card, draw_hundred_card, get_card_data
 from component.regis import is_wx_regis, wx_regis, get_verify_code, delete_wx_regis
 from component.score import daily_score, search_score, increase_score
 from component.wx import get_login_openid
+from main.app import app, request
 from tool.CONTANT import SSL_KEY_PATH, SSL_PEM_PATH
-
-app = Flask(__name__)
 
 
 @app.route('/')
@@ -102,8 +99,7 @@ def draw_hundred():
     return result
 
 
-@app.route('yintian'
-           '', methods=['POST'])
+@app.route('/yintian', methods=['POST'])
 def card_get_data():
     """
     获取卡牌base64内容入口
@@ -227,4 +223,4 @@ def remove_wx_regis():
 
 if __name__ == '__main__':
     # 运行flask.app
-    app.run(host='0.0.0.0', port=4399, ssl_context=(SSL_PEM_PATH, SSL_KEY_PATH))
+    app.run(host='0.0.0.0', port=4399)
