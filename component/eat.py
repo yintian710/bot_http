@@ -42,7 +42,7 @@ def get_restaurants_did(user_id) -> list:
     :param user_id:
     :return:
     """
-    did = select_eat(user_id, 'did')
+    did = select_eat(user_id, 'did')[0]
     did = json.loads(did)
     return did
 
@@ -88,8 +88,24 @@ def get_restaurant(user_id) -> dict:
     :return:
     """
     restaurant_number = get_restaurant_id(user_id)
-    restaurant = get_one_restaurant(user_id, restaurant_number)
+    restaurant_data = get_restaurants_data(user_id)
+    restaurant = get_one_restaurant(restaurant_data, restaurant_number)
     return restaurant
+
+
+@is_regis
+def get_user_restaurant(user_id):
+    """
+    获取用户食府数据
+    :param user_id:
+    :return:
+    """
+    restaurant_id = get_restaurant_id(user_id)
+    restaurant = get_restaurant(user_id)
+    name = restaurant.get('name')
+    food = restaurant.get('food')
+    str1 = f'您当前食府为{restaurant_id}号食府{name}，食物为：{"、".join(food.keys())}'
+    return get_return(public_msg=str1, need={'restaurant': restaurant})
 
 
 def get_restaurant_id(user_id) -> str:
@@ -124,8 +140,8 @@ def get_random_food(food_dic: dict, ignore=None) -> str:
     """
     if ignore:
         food_dic.pop(ignore)
-    foods = food_dic.keys()
-    weights = food_dic.values()
+    foods = list(food_dic.keys())
+    weights = list(food_dic.values())
     random_food = random.choices(foods, weights=weights)
     return random_food
 
@@ -149,10 +165,11 @@ def next_restaurant(user_id):
     restaurant_id = get_restaurant_id(user_id)
     now = time.time()
     go = restaurants_data['go']
-    restaurants_data[restaurant_id]['food'][go] += NEXT_WEIGHT
+    if go:
+        restaurants_data[restaurant_id]['food'][go] += NEXT_WEIGHT
     food_dic = restaurants_data[restaurant_id]['food']
     did = get_restaurants_did(user_id)
-    if (did[-1]['food'] == did[-2]['food']) and (did[-1]['time'] - did[-2]['time'] < 86400) \
+    if (len(did) > 2) and (did[-1]['food'] == did[-2]['food']) and (did[-1]['time'] - did[-2]['time'] < 86400) \
             and (now - did[-1]['time'] < 86400):
         ignore = restaurants_data['go']
     else:

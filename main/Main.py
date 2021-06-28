@@ -9,6 +9,7 @@
 from component.achievement import select_achievement, achievement_progress
 from component.boom import boom_play, new_boom, new_user_boom
 from component.card import search_card, draw_card, draw_ten_card, draw_hundred_card, get_card_data
+from component.eat import get_user_restaurant, get_random_food, next_restaurant
 from component.regis import is_wx_regis, wx_regis, get_verify_code, delete_wx_regis
 from component.score import daily_score, search_score, increase_score
 from component.wx import get_login_openid
@@ -221,6 +222,20 @@ def remove_wx_regis():
     return result
 
 
+@app.route('/restaurants/get_restaurants', methods=['POST'])
+def get_restaurants():
+    user_id = request.form['user_id']
+    result = get_user_restaurant(user_id)
+    return result
+
+
+@app.route('/restaurants/next', methods=['POST'])
+def random_food():
+    user_id = request.form['user_id']
+    result = next_restaurant(user_id)
+    return result
+
+
 if __name__ == '__main__':
     # 运行flask.app
-    app.run(host='0.0.0.0', port=4399)
+    app.run(host='0.0.0.0', port=4399, ssl_context=(SSL_PEM_PATH, SSL_KEY_PATH))
